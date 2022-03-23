@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebCam on JS</title>
+    <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-color: rgb(46, 46, 46);
+        }
+
+        a {
+            padding: 10px;
+            background-color: rgb(255, 81, 0);
+            color: black;
+            text-decoration: none;
+            border-radius: 6px;
+            padding: 20px 60px;
+        }
+
+        a:hover {
+            background-color: rgba(255, 81, 0, 0.726);
+            cursor: pointer;
+        }
+
+        video {
+            width: 800px;
+            height: 600px;
+            border-radius: 30px;
+            border: 3px dashed rgb(255, 81, 0);
+            margin-bottom: 50px;
+            
+        }
+
+        canvas {
+            display: none;
+        }
+
+        .buttons {
+            display: flex;
+            background-color: rgb(46, 46, 46);
+            width: 900px;
+            padding: 20px;
+            justify-content: space-around;
+            border-radius: 60px;
+            box-shadow: 10px 10px 60px rgb(0, 0, 0);
+        }
+    </style>
+</head>
+
+<body>
+    <video id="webcam" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+    <div class="buttons">
+        <a onClick="start()">Start Cam </a>
+        <a download onClick="takePic()" id="picture">Take a picture</a>
+        <a onClick="stop()">Stop Cam </a>
+    </div>
+</body>
+<script>
+    const webcamElement = document.getElementById("webcam");
+    const canvasElement = document.getElementById("canvas");
+    const webcam = new Webcam(webcamElement, "user", canvasElement);
+
+    function start() {
+        webcam.start()
+            .then(result => {
+                console.log("webcam started");
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    function stop() {
+        webcam.stop()
+    }
+
+    function takePic() {
+        let pic = webcam.snap();
+        document.getElementById("picture").href = pic;
+    }
+</script>
+
+</html>
